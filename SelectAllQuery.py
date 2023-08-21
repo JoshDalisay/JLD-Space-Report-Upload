@@ -1,10 +1,10 @@
 import mysql.connector
 
 mydb = mysql.connector.connect(
-    host="log-s8mo-2web",
+    host="",
     user="",
     password="",
-    database="space_report"
+    database=""
 )
 
 # FIND A TRUNCATE TABLE STATEMENT 
