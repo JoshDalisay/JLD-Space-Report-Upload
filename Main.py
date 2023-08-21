@@ -12,10 +12,10 @@ from tqdm import tqdm
 
 
 mydb = mysql.connector.connect(
-    host="log-s8mo-2web",
-    user="report_space",
-    password="#Comp%Room3224!",
-    database="space_report"
+    host="",
+    user="",
+    password="",
+    database=""
 )
 
 
