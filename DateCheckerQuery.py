@@ -12,8 +12,13 @@ def GetLastScanDate():
     thiscursor = mydb.cursor()
     thiscursor.execute("SELECT * FROM space_report_table ORDER BY scan_id DESC LIMIT 1")
     thisresult = thiscursor.fetchone()
-    lastDate = thisresult[1]
-    return(lastDate)
+    if not thisresult:
+        print("There is no data in the database")
+    else:
+        # Handle the non-empty result set
+        lastDate = thisresult[1]
+        return(lastDate)
+    
 
     mydb.close()
 

@@ -24,6 +24,7 @@ cursor = mydb.cursor()
 workstation_name = ""
 storage_left = ""
 
+
 #Get today's date
 today = datetime.now().date()
 today = str(today)
@@ -41,7 +42,6 @@ reportDate = (match.group())
 
 #Read the information inside the scanned output file
 TextOutputRead = ResultsFileReader.ResultsReader()
-
 #Gets the date of the last item scanned into the database.
 last_date_entry = str(lsd())
 
@@ -50,9 +50,14 @@ print("Today's date: " + today)
 print("\n------------------------------------")
 print("\nReport date: " + reportDate)
 print("\nLast date in database: " + last_date_entry + "\n")
-DateCheck = ScanDateChecker.CheckScanDate(reportDate, last_date_entry)
-#DateCheck = True
-if DateCheck == True:
+if len(TextOutputRead) > 0:
+    DateCheck = ScanDateChecker.CheckScanDate(reportDate, last_date_entry)
+else:
+    DateCheck = False
+
+
+
+if DateCheck == True and len(TextOutputRead) > 0:
     for item in TextOutputRead:
         workstation_name = item[0]
         storage_left = item[1]
@@ -66,17 +71,27 @@ if DateCheck == True:
         cursor.execute(sql, val)
         
         print("\nItem to insert: " + str(val))
-        confirmation = input("Do you want to commit? y or n\n")
-        if confirmation.lower() == "y":
-            #Reduce sleep value to increase "performance"
-            print("\nCommitting " + str(val) + " to MySQL Database...")
-            for t in tqdm(range(100)):
-                sleep(0.009)
-            mydb.commit()
-        else:
-            print("\nNot Committing...")
-            print(str(val))
-            break
+        print("Do you want to commit? y or n\n")
+        while True:
+            try:
+                user_input = input("Enter 'y' or 'n': ")
+                if user_input not in ['y', 'n']:
+                    raise ValueError("Invalid input. Please enter 'y' or 'n'.")
+                else: 
+                    if user_input.lower() == "y":
+                        #Reduce sleep value to increase "performance"
+                        print("\nCommitting " + str(val) + " to MySQL Database...")
+                        for t in tqdm(range(100)):
+                            sleep(0.009)
+                        mydb.commit()
+                    else:
+                        print("\nNot Committing...")
+                        print(str(val))
+                    
+                break
+            except ValueError as e:
+                print(e)
+        break
         
         
         
