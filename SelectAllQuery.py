@@ -2,8 +2,8 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
     host="log-s8mo-2web",
-    user="jdalis5n",
-    password="South567456843!",
+    user="",
+    password="",
     database="space_report"
 )
 
